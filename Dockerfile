@@ -1,5 +1,5 @@
 FROM python:3.12-slim
-LABEL maintainer="GUARDIAN X ULTIMATE"
+LABEL maintainer="EYLÜL BOT"
 LABEL version="1.0.0"
 
 ENV PYTHONDONTWRITEBYTECODE=1

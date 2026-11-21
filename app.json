@@ -1,0 +1,53 @@
+{
+  "name": "eylul-bot",
+  "description": "Eylül - Telegram grup yönetimi, oyun ve topluluk botu",
+  "repository": "https://github.com/Hunlar/sirgibi",
+  "keywords": [
+    "telegram",
+    "bot",
+    "moderation",
+    "games",
+    "community"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "BOT_TOKEN": {
+      "description": "Telegram bot tokeni (@BotFather)",
+      "required": true
+    },
+    "DATABASE_URL": {
+      "description": "PostgreSQL bağlantı adresi",
+      "required": true
+    },
+    "REDIS_URL": {
+      "description": "Redis bağlantı adresi",
+      "required": true
+    },
+    "BOT_OWNER_ID": {
+      "description": "Bot sahibinin Telegram kullanıcı ID'si",
+      "required": true
+    },
+    "LOG_LEVEL": {
+      "description": "Log seviyesi",
+      "value": "INFO"
+    },
+    "ENVIRONMENT": {
+      "description": "Çalışma ortamı",
+      "value": "production"
+    },
+    "DEFAULT_LANGUAGE": {
+      "description": "Varsayılan dil",
+      "value": "tr"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}

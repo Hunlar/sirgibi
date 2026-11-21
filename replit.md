@@ -1,4 +1,4 @@
-# GUARDIAN X ULTIMATE Bot
+# EYLÜL BOT Bot
 
 A production-ready Telegram group management bot.
 

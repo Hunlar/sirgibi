@@ -3,14 +3,14 @@ version: "3.9"
 services:
   bot:
     build: .
-    container_name: guardian_bot
+    container_name: eylul_bot
     restart: unless-stopped
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - WEBHOOK_URL=${WEBHOOK_URL:-}
-      - WEBHOOK_SECRET=${WEBHOOK_SECRET:-guardian_x_secret}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET:-eylul_webhook_secret}
       - WEBHOOK_PORT=8080
-      - DATABASE_URL=postgresql+asyncpg://guardian:guardian_pass@postgres:5432/guardian_db
+      - DATABASE_URL=postgresql+asyncpg://eylul:eylul_pass@postgres:5432/eylul_db
       - REDIS_URL=redis://redis:6379/0
       - BOT_OWNER_ID=${BOT_OWNER_ID:-0}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
@@ -23,7 +23,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - guardian_network
+      - eylul_network
     volumes:
       - ./logs:/app/logs
     healthcheck:
@@ -35,34 +35,34 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: guardian_postgres
+    container_name: eylul_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: guardian_db
-      POSTGRES_USER: guardian
-      POSTGRES_PASSWORD: guardian_pass
+      POSTGRES_DB: eylul_db
+      POSTGRES_USER: eylul
+      POSTGRES_PASSWORD: eylul_pass
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - guardian_network
+      - eylul_network
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U guardian -d guardian_db"]
+      test: ["CMD-SHELL", "pg_isready -U eylul -d eylul_db"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: guardian_redis
+    container_name: eylul_redis
     restart: unless-stopped
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-guardianredis}
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-eylulredis}
     volumes:
       - redis_data:/data
     networks:
-      - guardian_network
+      - eylul_network
     ports:
       - "6379:6379"
     healthcheck:
@@ -73,15 +73,15 @@ services:
 
   migrate:
     build: .
-    container_name: guardian_migrate
+    container_name: eylul_migrate
     command: python scripts/migrate.py
     environment:
-      - DATABASE_URL=postgresql+asyncpg://guardian:guardian_pass@postgres:5432/guardian_db
+      - DATABASE_URL=postgresql+asyncpg://eylul:eylul_pass@postgres:5432/eylul_db
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - guardian_network
+      - eylul_network
     restart: on-failure
 
 volumes:
@@ -89,5 +89,5 @@ volumes:
   redis_data:
 
 networks:
-  guardian_network:
+  eylul_network:
     driver: bridge

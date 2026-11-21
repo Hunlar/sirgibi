@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: guardian-x-ultimate
+    name: eylul-bot
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
@@ -15,7 +15,7 @@ services:
         sync: false
       - key: WEBHOOK_URL
         fromService:
-          name: guardian-x-ultimate
+          name: eylul-bot
           type: web
           property: host
           format: https://{host}
@@ -25,11 +25,11 @@ services:
         value: "8080"
       - key: DATABASE_URL
         fromDatabase:
-          name: guardian-db
+          name: eylul-db
           property: connectionString
       - key: REDIS_URL
         fromService:
-          name: guardian-redis
+          name: eylul-redis
           type: redis
           property: connectionString
       - key: BOT_OWNER_ID
@@ -44,15 +44,15 @@ services:
         value: "8080"
 
   - type: redis
-    name: guardian-redis
+    name: eylul-redis
     plan: starter
     maxmemoryPolicy: allkeys-lru
     ipAllowList: []
 
 databases:
-  - name: guardian-db
+  - name: eylul-db
     plan: starter
-    databaseName: guardian_db
-    user: guardian
+    databaseName: eylul_db
+    user: eylul
     region: oregon
     postgresMajorVersion: "16"
